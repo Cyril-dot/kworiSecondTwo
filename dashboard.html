@@ -295,14 +295,8 @@ img{max-width:100%;}
 .ss-card img{width:100%;height:140px;object-fit:cover;display:block;}
 .ss-card-info{padding:8px 10px;font-size:11px;color:var(--muted);}
 .ss-tab-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
-.ss-tab{padding:7px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--muted);transition:all .15s;}
+.ss-tab{padding:7px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--muted);transition:all .15px;}
 .ss-tab.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark);}
-
-/* WITHDRAWAL HISTORY USER SECTION */
-.withdraw-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 22px;border-bottom:1px solid var(--border);}
-.wsumm-card{background:#f9fafb;border-radius:8px;padding:12px 14px;}
-.wsumm-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px;}
-.wsumm-val{font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:var(--text);}
 
 /* MODALS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;align-items:flex-end;justify-content:center;padding:0;backdrop-filter:blur(2px);}
@@ -363,7 +357,6 @@ img{max-width:100%;}
   .search-wrap input{width:120px;}
   .screenshot-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:12px;}
   .toast{bottom:20px;right:14px;left:14px;}
-  .withdraw-summary{grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px;}
 }
 
 @media(max-width:480px){
@@ -395,9 +388,6 @@ img{max-width:100%;}
   .section-head{padding:12px 14px;}
   .tx-row{padding:11px 14px;}
   .btn-xs{padding:3px 8px;font-size:10px;}
-  .withdraw-summary{grid-template-columns:repeat(3,1fr);gap:4px;padding:10px 12px;}
-  .wsumm-val{font-size:13px;}
-  .wsumm-label{font-size:9px;}
 }
 
 @media(max-width:360px){
@@ -513,7 +503,7 @@ img{max-width:100%;}
     </div>
 
     <!-- TRANSACTION HISTORY (Deposits + Withdrawals merged) -->
-    <div class="section-card" style="margin-bottom:20px;">
+    <div class="section-card">
       <div class="section-head">
         <h2>Transaction History</h2>
         <div class="pill-tabs">
@@ -523,33 +513,6 @@ img{max-width:100%;}
         </div>
       </div>
       <div id="tx-body">
-        <div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div>
-      </div>
-    </div>
-
-    <!-- WITHDRAWAL HISTORY SECTION -->
-    <div class="section-card">
-      <div class="section-head">
-        <h2>My Withdrawals</h2>
-        <button class="btn-xs btn-xs-delete" id="btn-clear-all-withdrawals" style="display:none" onclick="userClearAllWithdrawals()">
-          <i class="fa-solid fa-trash"></i> Clear All
-        </button>
-      </div>
-      <div class="withdraw-summary">
-        <div class="wsumm-card">
-          <div class="wsumm-label">Total Requests</div>
-          <div class="wsumm-val" id="ws-total">0</div>
-        </div>
-        <div class="wsumm-card">
-          <div class="wsumm-label">Pending</div>
-          <div class="wsumm-val" id="ws-pending" style="color:#854d0e">0</div>
-        </div>
-        <div class="wsumm-card">
-          <div class="wsumm-label">Approved</div>
-          <div class="wsumm-val" id="ws-approved" style="color:#166534">0</div>
-        </div>
-      </div>
-      <div id="wd-body">
         <div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div>
       </div>
     </div>
@@ -964,17 +927,14 @@ async function init(){
 }
 
 /* ═══════════════════════════════════════════
-   USER DATA (Financial Summary + Deposits + Withdrawals)
+   USER DATA
 ═══════════════════════════════════════════ */
 async function loadUserData(){
   const h={Authorization:`Bearer ${tok()}`};
   try {
     const [sumRes,depRes,wdRes]=await Promise.all([
-      // GET /api/users/{userId}/financial-summary
       fetch(`${API}/api/users/${uid()}/financial-summary`,{headers:h}),
-      // GET /api/deposits/{userId}/my-transactions  (alias for /api/users/{userId}/deposits)
       fetch(`${API}/api/deposits/${uid()}/my-transactions`,{headers:h}),
-      // GET /api/users/{userId}/withdrawals
       fetch(`${API}/api/users/${uid()}/withdrawals`,{headers:h})
     ]);
 
@@ -990,10 +950,8 @@ async function loadUserData(){
     userWithdrawals=wdRes.ok?await wdRes.json():[];
 
     renderTxList(deps,userWithdrawals);
-    renderUserWithdrawals(userWithdrawals);
   } catch(e){
     document.getElementById('tx-body').innerHTML='<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Failed to load transactions.</div>';
-    document.getElementById('wd-body').innerHTML='<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Failed to load withdrawals.</div>';
   }
 }
 
@@ -1005,10 +963,9 @@ function switchTxTab(type,el){
 }
 
 /* ═══════════════════════════════════════════
-   TRANSACTION LIST (Deposits + Withdrawals merged)
+   TRANSACTION LIST
 ═══════════════════════════════════════════ */
 function renderTxList(deps,wds){
-  // Build unified list
   let combined=[];
 
   if(currentTxTab==='all'||currentTxTab==='deposits'){
@@ -1068,84 +1025,13 @@ function renderTxList(deps,wds){
 }
 
 /* ═══════════════════════════════════════════
-   USER WITHDRAWAL SECTION
-   GET /api/users/{userId}/withdrawals
-   DELETE /api/users/{userId}/withdrawals/{withdrawalId}
-   DELETE /api/users/{userId}/withdrawals
-═══════════════════════════════════════════ */
-function renderUserWithdrawals(list){
-  const body=document.getElementById('wd-body');
-  const clearBtn=document.getElementById('btn-clear-all-withdrawals');
-
-  // Update summary
-  document.getElementById('ws-total').textContent=list.length;
-  document.getElementById('ws-pending').textContent=list.filter(w=>w.status==='PENDING').length;
-  document.getElementById('ws-approved').textContent=list.filter(w=>w.status==='APPROVED').length;
-
-  if(list.length>0) clearBtn.style.display='inline-flex'; else clearBtn.style.display='none';
-
-  if(!list.length){
-    body.innerHTML='<div class="empty-state"><i class="fa-solid fa-arrow-up"></i>No withdrawal requests yet.</div>';
-    return;
-  }
-
-  const sorted=[...list].sort((a,b)=>new Date(b.createdAt||b.requestedAt)-new Date(a.createdAt||a.requestedAt));
-  const html=`<div class="tx-list">${sorted.map(wd=>`
-    <div class="tx-row">
-      <div class="tx-l">
-        <div class="tx-icon wit"><i class="fa-solid fa-arrow-up"></i></div>
-        <div>
-          <div class="tx-type">Withdrawal${wd.method||wd.withdrawalMethod?' · '+(wd.method||wd.withdrawalMethod):''}</div>
-          <div class="tx-date">${fmtDate(wd.createdAt||wd.requestedAt)}${wd.accountNumber?' · '+wd.accountNumber:''}</div>
-        </div>
-      </div>
-      <div class="tx-r">
-        <div class="tx-amt" style="color:#dc2626">- GH₵ ${fmt(wd.amount)}</div>
-        <div style="margin-top:3px;display:flex;align-items:center;gap:6px;justify-content:flex-end;">
-          <span class="badge ${wd.status}">${wd.status}</span>
-          ${wd.status==='PENDING'?`<button class="btn-xs btn-xs-delete" onclick="userDeleteWithdrawal('${wd.id}')"><i class="fa-solid fa-trash"></i></button>`:''}
-        </div>
-      </div>
-    </div>`).join('')}</div>`;
-  body.innerHTML=html;
-}
-
-async function userDeleteWithdrawal(withdrawalId){
-  if(!confirm('Cancel and delete this withdrawal request?')) return;
-  // DELETE /api/users/{userId}/withdrawals/{withdrawalId}
-  try {
-    const res=await fetch(`${API}/api/users/${uid()}/withdrawals/${withdrawalId}`,{
-      method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}
-    });
-    if(!res.ok&&res.status!==204)throw new Error('Failed to delete withdrawal');
-    toast('Withdrawal deleted. Balance refunded if it was pending.','success');
-    await loadUserData();
-  } catch(e){toast(e.message,'error');}
-}
-
-async function userClearAllWithdrawals(){
-  if(!confirm('Delete ALL your withdrawal requests? Pending ones will be refunded.')) return;
-  // DELETE /api/users/{userId}/withdrawals
-  try {
-    const res=await fetch(`${API}/api/users/${uid()}/withdrawals`,{
-      method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}
-    });
-    if(!res.ok&&res.status!==204)throw new Error('Failed to clear withdrawals');
-    toast('All withdrawals cleared.','success');
-    await loadUserData();
-  } catch(e){toast(e.message,'error');}
-}
-
-/* ═══════════════════════════════════════════
    NOTIFICATIONS
 ═══════════════════════════════════════════ */
 async function loadUserNotifs(){
   const h={Authorization:`Bearer ${tok()}`};
   try {
     const [nRes,cRes]=await Promise.all([
-      // GET /api/users/{userId}/notifications
       fetch(`${API}/api/users/${uid()}/notifications`,{headers:h}),
-      // GET /api/users/{userId}/notifications/unread-count
       fetch(`${API}/api/users/${uid()}/notifications/unread-count`,{headers:h})
     ]);
     userNotifs=nRes.ok?await nRes.json():[];
@@ -1189,7 +1075,6 @@ async function markRead(notifId){
   const n=userNotifs.find(x=>x.id===notifId);
   if(!n||n.read)return;
   try {
-    // PATCH /api/users/{userId}/notifications/{notifId}/read
     await fetch(`${API}/api/users/${uid()}/notifications/${notifId}/read`,{
       method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}
     });
@@ -1203,7 +1088,6 @@ async function markRead(notifId){
 
 async function markAllRead(){
   try {
-    // PATCH /api/users/{userId}/notifications/read-all
     await fetch(`${API}/api/users/${uid()}/notifications/read-all`,{
       method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}
     });
@@ -1221,13 +1105,9 @@ async function loadAdminData(){
   const h={Authorization:`Bearer ${tok()}`};
   try {
     const [depRes,usrRes,notifRes,wdRes]=await Promise.all([
-      // GET /api/deposits/all  (alias for /api/admin/deposits)
       fetch(`${API}/api/deposits/all`,{headers:h}),
-      // GET /api/admin/users
       fetch(`${API}/api/admin/users`,{headers:h}),
-      // GET /api/admin/notifications
       fetch(`${API}/api/admin/notifications`,{headers:h}),
-      // GET /api/admin/withdrawals
       fetch(`${API}/api/admin/withdrawals`,{headers:h})
     ]);
     allDeposits  =depRes.ok   ?await depRes.json()  :[];
@@ -1320,7 +1200,6 @@ async function rejectDeposit(id){
 }
 
 async function patchDepositStatus(id,status,rewardAmount){
-  // PATCH /api/admin/deposits/{depositId}/status
   const body={status};
   if(rewardAmount!=null)body.rewardAmount=rewardAmount;
   try {
@@ -1335,7 +1214,6 @@ async function patchDepositStatus(id,status,rewardAmount){
 
 async function adminDeleteDeposit(id){
   if(!confirm('Permanently delete this deposit?'))return;
-  // DELETE /api/admin/deposits/{depositId}
   try {
     const res=await fetch(`${API}/api/admin/deposits/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
     if(!res.ok&&res.status!==204)throw new Error('Failed to delete');
@@ -1346,12 +1224,6 @@ async function adminDeleteDeposit(id){
 
 /* ═══════════════════════════════════════════
    ADMIN WITHDRAWALS
-   GET    /api/admin/withdrawals
-   GET    /api/admin/withdrawals/{withdrawalId}
-   PATCH  /api/admin/withdrawals/{withdrawalId}/status
-   DELETE /api/admin/withdrawals/{withdrawalId}
-   DELETE /api/admin/withdrawals
-   DELETE /api/admin/withdrawals/users/{userId}
 ═══════════════════════════════════════════ */
 function renderAdminWithdrawals(list){
   const tbody=document.getElementById('wd-admin-tbody');
@@ -1386,26 +1258,14 @@ function filterWithdrawals(q){
 }
 
 async function viewWithdrawal(id){
-  // GET /api/admin/withdrawals/{withdrawalId}
   try {
     const res=await fetch(`${API}/api/admin/withdrawals/${id}`,{headers:{Authorization:`Bearer ${tok()}`}});
     if(!res.ok)throw new Error('Failed to fetch withdrawal details');
     const wd=await res.json();
     document.getElementById('wd-detail-body').innerHTML=`
-      ${[
-        ['User',wd.userFullName||wd.userName||'—'],
-        ['Email',wd.userEmail||'—'],
-        ['Amount','GH₵ '+fmt(wd.amount)],
-        ['Method',wd.method||wd.withdrawalMethod||'—'],
-        ['Account',wd.accountNumber||'—'],
-        ['Account Name',wd.accountName||'—'],
-        ['Status',`<span class="badge ${wd.status}">${wd.status}</span>`],
-        ['Requested',fmtDate(wd.createdAt||wd.requestedAt)],
-        ['Updated',fmtDate(wd.updatedAt)]
-      ].map(([l,v])=>`<div class="modal-detail-row"><span class="dl">${l}</span><span class="dv">${v}</span></div>`).join('')}`;
+      ${[['User',wd.userFullName||wd.userName||'—'],['Email',wd.userEmail||'—'],['Amount','GH₵ '+fmt(wd.amount)],['Method',wd.method||wd.withdrawalMethod||'—'],['Account',wd.accountNumber||'—'],['Account Name',wd.accountName||'—'],['Status',`<span class="badge ${wd.status}">${wd.status}</span>`],['Requested',fmtDate(wd.createdAt||wd.requestedAt)],['Updated',fmtDate(wd.updatedAt)]].map(([l,v])=>`<div class="modal-detail-row"><span class="dl">${l}</span><span class="dv">${v}</span></div>`).join('')}`;
     openModal('modal-wd-detail');
   } catch(e){
-    // fallback to local data
     const wd=allWithdrawals.find(x=>x.id===id);
     if(!wd){toast('Failed to load withdrawal details','error');return;}
     document.getElementById('wd-detail-body').innerHTML=`
@@ -1416,7 +1276,6 @@ async function viewWithdrawal(id){
 
 async function approveWithdrawal(id){
   if(!confirm('Approve this withdrawal?'))return;
-  // PATCH /api/admin/withdrawals/{withdrawalId}/status?status=APPROVED
   try {
     const res=await fetch(`${API}/api/admin/withdrawals/${id}/status?status=APPROVED`,{
       method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}
@@ -1429,7 +1288,6 @@ async function approveWithdrawal(id){
 
 async function rejectWithdrawal(id){
   if(!confirm('Reject this withdrawal? The balance will be refunded if applicable.'))return;
-  // PATCH /api/admin/withdrawals/{withdrawalId}/status?status=REJECTED
   try {
     const res=await fetch(`${API}/api/admin/withdrawals/${id}/status?status=REJECTED`,{
       method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}
@@ -1442,7 +1300,6 @@ async function rejectWithdrawal(id){
 
 async function adminDeleteWithdrawal(id){
   if(!confirm('Permanently delete this withdrawal? Balance will be refunded if it was pending.'))return;
-  // DELETE /api/admin/withdrawals/{withdrawalId}
   try {
     const res=await fetch(`${API}/api/admin/withdrawals/${id}`,{
       method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}
@@ -1455,7 +1312,6 @@ async function adminDeleteWithdrawal(id){
 
 async function adminDeleteAllWithdrawals(){
   if(!confirm('Delete ALL withdrawal records for ALL users? This cannot be undone.'))return;
-  // DELETE /api/admin/withdrawals
   try {
     const res=await fetch(`${API}/api/admin/withdrawals`,{
       method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}
@@ -1466,9 +1322,7 @@ async function adminDeleteAllWithdrawals(){
   } catch(e){toast(e.message,'error');}
 }
 
-// Available but not exposed in UI — useful for future per-user admin delete
 async function adminDeleteUserWithdrawals(userId){
-  // DELETE /api/admin/withdrawals/users/{userId}
   try {
     const res=await fetch(`${API}/api/admin/withdrawals/users/${userId}`,{
       method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}
@@ -1514,7 +1368,6 @@ function openRoleModal(userId,currentRole){
 async function submitRoleChange(){
   const userId=document.getElementById('role-user-id').value;
   const role=document.getElementById('role-select').value;
-  // PATCH /api/admin/users/{userId}/role
   try {
     const res=await fetch(`${API}/api/admin/users/${userId}/role`,{
       method:'PATCH',headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},body:JSON.stringify({role})
@@ -1541,7 +1394,6 @@ async function submitCredit(){
   const amount=parseFloat(document.getElementById('credit-amount').value);
   if(!userId){toast('Please select a user','error');return;}
   if(!amount||amount<=0){toast('Enter a valid amount','error');return;}
-  // POST /api/admin/deposits/credit
   try {
     const res=await fetch(`${API}/api/admin/deposits/credit`,{
       method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},body:JSON.stringify({userId,amount})
@@ -1609,7 +1461,6 @@ async function submitNotification(){
   form.append('adminId',uid());form.append('type',type);
   if(message)form.append('message',message);
   if(imgFile)form.append('image',imgFile);
-  // POST /api/admin/notifications/send
   try {
     const res=await fetch(`${API}/api/admin/notifications/send`,{method:'POST',headers:{Authorization:`Bearer ${tok()}`},body:form});
     if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}
@@ -1630,7 +1481,6 @@ function resetNotifModal(){
 
 async function deleteAdminNotif(id){
   if(!confirm('Delete this notification?'))return;
-  // DELETE /api/admin/notifications/{id}
   try {
     const res=await fetch(`${API}/api/admin/notifications/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
     if(!res.ok&&res.status!==204)throw new Error('Failed');
@@ -1647,7 +1497,6 @@ async function loadScreenshots(period,el){
   const grid=document.getElementById('ss-grid');
   grid.innerHTML='<div class="loading-state" style="grid-column:1/-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div>';
   try {
-    // GET /api/admin/screenshots/{period}
     const res=await fetch(`${API}/api/admin/screenshots/${period}`,{headers:{Authorization:`Bearer ${tok()}`}});
     const shots=res.ok?await res.json():[];
     if(!shots.length){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-images"></i>No screenshots found.</div>';return;}
@@ -1668,7 +1517,6 @@ async function submitCreateAdmin(){
   const phoneNumber=document.getElementById('reg-phone').value.trim();
   const password=document.getElementById('reg-pass').value;
   if(!fullName||!email||!password){toast('Please fill in required fields','error');return;}
-  // POST /api/admin/register
   try {
     const body={fullName,email,password};
     if(phoneNumber)body.phoneNumber=phoneNumber;
