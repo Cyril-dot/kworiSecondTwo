@@ -44,12 +44,10 @@ img{max-width:100%;}
 }
 #welcome-overlay.hidden{display:none;}
 
-/* Confetti canvas sits behind the content */
 #confetti-canvas{
   position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
 }
 
-/* Glowing blob decorations */
 .blob{
   position:absolute;border-radius:50%;filter:blur(60px);opacity:0.18;
   animation:blobFloat 6s ease-in-out infinite;
@@ -59,7 +57,6 @@ img{max-width:100%;}
 .blob3{width:180px;height:180px;background:#3b82f6;top:50%;left:60%;animation-delay:4s;}
 @keyframes blobFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.05);}}
 
-/* Central content */
 .wc-content{
   position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;
   gap:0;text-align:center;padding:32px 28px;
@@ -67,7 +64,6 @@ img{max-width:100%;}
 }
 @keyframes wcContentIn{from{opacity:0;transform:translateY(40px) scale(.95);}to{opacity:1;transform:none;}}
 
-/* Animated logo mark */
 .wc-logo-ring{
   width:90px;height:90px;border-radius:22px;
   background:linear-gradient(135deg,#22c55e,#16a34a);
@@ -83,7 +79,6 @@ img{max-width:100%;}
   100%{box-shadow:0 0 0 0 rgba(34,197,94,0);}
 }
 
-/* Emoji burst */
 .wc-emoji{
   font-size:52px;line-height:1;
   animation:emojiBounce .6s cubic-bezier(.34,1.56,.64,1) .9s both;
@@ -91,7 +86,6 @@ img{max-width:100%;}
 }
 @keyframes emojiBounce{from{opacity:0;transform:scale(.3) rotate(-20deg);}to{opacity:1;transform:none;}}
 
-/* Congrats text */
 .wc-congrats{
   font-family:'Sora',sans-serif;font-size:13px;font-weight:700;
   text-transform:uppercase;letter-spacing:.14em;
@@ -113,7 +107,6 @@ img{max-width:100%;}
 }
 @keyframes fadeSlideUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
 
-/* Ghana flag stripe accent */
 .wc-flag-stripe{
   display:flex;gap:0;border-radius:6px;overflow:hidden;height:5px;width:180px;margin-bottom:28px;
   animation:fadeSlideUp .5s ease 1.25s both;box-shadow:0 2px 12px rgba(0,0,0,.3);
@@ -122,7 +115,6 @@ img{max-width:100%;}
 .stripe-g{flex:1;background:#fcd116;}
 .stripe-b{flex:1;background:#006b3f;}
 
-/* CTA button */
 .wc-btn{
   background:linear-gradient(135deg,#22c55e,#16a34a);
   color:#fff;border:none;border-radius:12px;
@@ -136,7 +128,6 @@ img{max-width:100%;}
 .wc-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(22,163,74,.55);}
 .wc-btn:active{transform:translateY(0);}
 
-/* Floating emoji particles */
 .float-emoji{
   position:absolute;font-size:22px;pointer-events:none;
   animation:floatUp linear forwards;opacity:0;
@@ -146,7 +137,6 @@ img{max-width:100%;}
   100%{opacity:0;transform:translateY(-280px) rotate(360deg);}
 }
 
-/* Stars twinkling */
 .star{
   position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;
   animation:twinkle ease-in-out infinite;
@@ -677,34 +667,22 @@ img{max-width:100%;}
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     WELCOME / CONGRATULATIONS OVERLAY
-     Shown only once when kowri_new_user flag exists in localStorage.
-     The flag is set during registration on signup page; cleared here after showing.
-═══════════════════════════════════════════ -->
 <div id="welcome-overlay" class="hidden">
   <canvas id="confetti-canvas"></canvas>
-
-  <!-- Background decorative blobs -->
   <div class="blob blob1"></div>
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
-
-  <!-- Main card -->
   <div class="wc-content">
     <div class="wc-logo-ring">K</div>
     <div class="wc-emoji">🎉</div>
     <div class="wc-congrats">Congratulations!</div>
     <div class="wc-headline">Welcome to <span>Kowri</span><br>Ghana 🇬🇭</div>
     <div class="wc-sub">Your account is all set. Start saving, earning rewards, and growing your money — right here.</div>
-
-    <!-- Ghana flag stripe -->
     <div class="wc-flag-stripe">
       <div class="stripe-r"></div>
       <div class="stripe-g"></div>
       <div class="stripe-b"></div>
     </div>
-
     <button class="wc-btn" onclick="dismissWelcome()">
       <i class="fa-solid fa-rocket"></i>
       Let's Go!
@@ -719,7 +697,6 @@ img{max-width:100%;}
       <div class="logo-dot">K</div>
       kowri
     </div>
-
     <div class="nav-tabs">
       <button class="nav-tab active" id="tab-user" onclick="showPage('user',this)">
         <i class="fa-solid fa-grid-2"></i> <span>Dashboard</span>
@@ -728,7 +705,6 @@ img{max-width:100%;}
         <i class="fa-solid fa-shield-halved"></i> <span>Admin</span>
       </button>
     </div>
-
     <div class="nav-right">
       <button class="notif-bell-btn" id="notif-bell" onclick="toggleNotifPanel()" title="Notifications">
         <i class="fa-solid fa-bell"></i>
@@ -766,7 +742,6 @@ img{max-width:100%;}
 <!-- USER PAGE -->
 <div class="page active" id="page-user">
   <div class="page-wrap">
-
     <div class="balance-hero">
       <div class="bal-label">Total Balance</div>
       <div class="bal-amount"><span class="bal-currency">GH₵</span><span id="bal-val">0.00</span></div>
@@ -812,7 +787,6 @@ img{max-width:100%;}
         <div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -833,7 +807,6 @@ img{max-width:100%;}
 <!-- ADMIN PAGE -->
 <div class="page" id="page-admin">
   <div class="admin-wrap">
-
     <div class="admin-hero">
       <div>
         <div class="admin-hero-title"><i class="fa-solid fa-shield-halved" style="color:var(--purple)"></i> Admin Panel</div>
@@ -983,7 +956,6 @@ img{max-width:100%;}
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -1082,163 +1054,134 @@ img{max-width:100%;}
 
 <script>
 /* ═══════════════════════════════════════════
-   WELCOME OVERLAY — Confetti + Animation
+   WELCOME OVERLAY
 ═══════════════════════════════════════════ */
-
-// ── Confetti engine ──────────────────────────────────
 const confettiColors = [
-  '#22c55e','#4ade80','#86efac',   // greens
-  '#fcd116','#fbbf24',             // yellow (Ghana)
-  '#f97316','#fb923c',             // orange
-  '#ce1126','#f87171',             // red (Ghana)
-  '#3b82f6','#60a5fa',             // blue
-  '#fff','#d1fae5'
+  '#22c55e','#4ade80','#86efac','#fcd116','#fbbf24',
+  '#f97316','#fb923c','#ce1126','#f87171','#3b82f6','#60a5fa','#fff','#d1fae5'
 ];
 
 function runConfetti(canvas){
   const ctx = canvas.getContext('2d');
-  canvas.width  = window.innerWidth;
+  canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-
   const pieces = [];
-  const PIECE_COUNT = 140;
-
-  for(let i = 0; i < PIECE_COUNT; i++){
+  for(let i = 0; i < 140; i++){
     pieces.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height - canvas.height,
-      w: Math.random() * 10 + 5,
-      h: Math.random() * 5 + 3,
-      color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
-      angle: Math.random() * Math.PI * 2,
-      spin: (Math.random() - 0.5) * 0.15,
-      vx: (Math.random() - 0.5) * 2.5,
-      vy: Math.random() * 3 + 1.5,
-      opacity: 1
+      x:Math.random()*canvas.width, y:Math.random()*canvas.height-canvas.height,
+      w:Math.random()*10+5, h:Math.random()*5+3,
+      color:confettiColors[Math.floor(Math.random()*confettiColors.length)],
+      angle:Math.random()*Math.PI*2, spin:(Math.random()-.5)*.15,
+      vx:(Math.random()-.5)*2.5, vy:Math.random()*3+1.5, opacity:1
     });
   }
-
-  let frame;
-  let startTime = performance.now();
-
+  let frame, startTime = performance.now();
   function draw(now){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const elapsed = (now - startTime) / 1000;
-
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const elapsed = (now-startTime)/1000;
     pieces.forEach(p => {
-      p.x  += p.vx;
-      p.y  += p.vy;
-      p.angle += p.spin;
-      // Fade out after 3 seconds
-      if(elapsed > 3) p.opacity = Math.max(0, p.opacity - 0.012);
-
-      ctx.save();
-      ctx.globalAlpha = p.opacity;
-      ctx.translate(p.x + p.w/2, p.y + p.h/2);
-      ctx.rotate(p.angle);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      p.x+=p.vx; p.y+=p.vy; p.angle+=p.spin;
+      if(elapsed>3) p.opacity=Math.max(0,p.opacity-.012);
+      ctx.save(); ctx.globalAlpha=p.opacity;
+      ctx.translate(p.x+p.w/2,p.y+p.h/2); ctx.rotate(p.angle);
+      ctx.fillStyle=p.color; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
       ctx.restore();
-
-      // Wrap around sides
-      if(p.x > canvas.width + 20)  p.x = -20;
-      if(p.x < -20) p.x = canvas.width + 20;
-      // Reset when fallen past bottom
-      if(p.y > canvas.height + 20 && elapsed < 5){
-        p.y = -20;
-        p.opacity = 1;
-      }
+      if(p.x>canvas.width+20) p.x=-20;
+      if(p.x<-20) p.x=canvas.width+20;
+      if(p.y>canvas.height+20&&elapsed<5){ p.y=-20; p.opacity=1; }
     });
-
-    // Stop after 6 seconds
-    if(elapsed < 6) frame = requestAnimationFrame(draw);
-    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(elapsed<6) frame=requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
   }
-
-  frame = requestAnimationFrame(draw);
-
-  window.addEventListener('resize', () => {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-
-  return () => cancelAnimationFrame(frame);
+  frame=requestAnimationFrame(draw);
+  window.addEventListener('resize',()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
+  return ()=>cancelAnimationFrame(frame);
 }
 
-// ── Floating emoji particles ──────────────────────────
-const floatEmojis = ['🎊','✨','🌟','💚','🇬🇭','💰','🎁','🎉'];
+const floatEmojis=['🎊','✨','🌟','💚','🇬🇭','💰','🎁','🎉'];
 function spawnFloatingEmojis(overlay){
-  let count = 0;
-  const max = 14;
-  const interval = setInterval(() => {
-    if(count >= max){ clearInterval(interval); return; }
-    const el = document.createElement('span');
-    el.className = 'float-emoji';
-    el.textContent = floatEmojis[Math.floor(Math.random() * floatEmojis.length)];
-    el.style.left  = (10 + Math.random() * 80) + '%';
-    el.style.bottom = (5 + Math.random() * 30) + '%';
-    const dur = (3 + Math.random() * 3).toFixed(1) + 's';
-    const delay = (Math.random() * 0.8).toFixed(2) + 's';
-    el.style.animationDuration  = dur;
-    el.style.animationDelay     = delay;
+  let count=0;
+  const interval=setInterval(()=>{
+    if(count>=14){clearInterval(interval);return;}
+    const el=document.createElement('span');
+    el.className='float-emoji';
+    el.textContent=floatEmojis[Math.floor(Math.random()*floatEmojis.length)];
+    el.style.left=(10+Math.random()*80)+'%';
+    el.style.bottom=(5+Math.random()*30)+'%';
+    const dur=(3+Math.random()*3).toFixed(1)+'s';
+    const delay=(Math.random()*.8).toFixed(2)+'s';
+    el.style.animationDuration=dur; el.style.animationDelay=delay;
     overlay.appendChild(el);
-    setTimeout(() => el.remove(), parseFloat(dur)*1000 + parseFloat(delay)*1000 + 200);
+    setTimeout(()=>el.remove(),parseFloat(dur)*1000+parseFloat(delay)*1000+200);
     count++;
-  }, 280);
+  },280);
 }
 
-// ── Stars backdrop ────────────────────────────────────
 function spawnStars(overlay){
-  for(let i = 0; i < 28; i++){
-    const s = document.createElement('div');
-    s.className = 'star';
-    s.style.left   = Math.random()*100 + '%';
-    s.style.top    = Math.random()*100 + '%';
-    s.style.animationDuration  = (2 + Math.random()*4).toFixed(1) + 's';
-    s.style.animationDelay     = (Math.random()*3).toFixed(2) + 's';
+  for(let i=0;i<28;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+    s.style.animationDuration=(2+Math.random()*4).toFixed(1)+'s';
+    s.style.animationDelay=(Math.random()*3).toFixed(2)+'s';
     overlay.appendChild(s);
   }
 }
 
-// ── Main show/hide logic ──────────────────────────────
 function showWelcomeOverlay(name){
-  const overlay = document.getElementById('welcome-overlay');
-  const canvas  = document.getElementById('confetti-canvas');
-
-  // Update headline with user's first name if available
+  const overlay=document.getElementById('welcome-overlay');
+  const canvas=document.getElementById('confetti-canvas');
   if(name){
-    const firstName = name.split(' ')[0];
-    const headline  = overlay.querySelector('.wc-headline');
-    headline.innerHTML = `Welcome,<br><span>${firstName}!</span> 🇬🇭`;
-    const sub = overlay.querySelector('.wc-sub');
-    sub.textContent = `Your Kowri account is all set, ${firstName}. Start saving, earning rewards, and growing your money — right here in Ghana.`;
+    const firstName=name.split(' ')[0];
+    overlay.querySelector('.wc-headline').innerHTML=`Welcome,<br><span>${firstName}!</span> 🇬🇭`;
+    overlay.querySelector('.wc-sub').textContent=`Your Kowri account is all set, ${firstName}. Start saving, earning rewards, and growing your money — right here in Ghana.`;
   }
-
   overlay.classList.remove('hidden');
-
-  // Kick off effects
-  const stopConfetti = runConfetti(canvas);
+  overlay._stopConfetti=runConfetti(canvas);
   spawnFloatingEmojis(overlay);
   spawnStars(overlay);
-
-  // Store stop ref for cleanup
-  overlay._stopConfetti = stopConfetti;
 }
 
 function dismissWelcome(){
-  const overlay = document.getElementById('welcome-overlay');
+  const overlay=document.getElementById('welcome-overlay');
   overlay.classList.add('hiding');
   if(overlay._stopConfetti) overlay._stopConfetti();
-  setTimeout(() => {
-    overlay.classList.add('hidden');
-    overlay.classList.remove('hiding');
-  }, 650);
-  // Auto-dismiss after a few seconds if they haven't clicked
+  setTimeout(()=>{ overlay.classList.add('hidden'); overlay.classList.remove('hiding'); },650);
   clearTimeout(window._wcAutoTimer);
 }
 
 /* ═══════════════════════════════════════════
-   MAIN APP LOGIC (unchanged from original)
+   API CONFIGURATION
+   All endpoints aligned to Spring controller mappings:
+
+   USER endpoints  (DepositController):
+     GET  /api/users/{userId}/deposits              → getUserTransactions
+     GET  /api/deposits/{userId}/my-transactions    → getUserTransactions (alias)
+     POST /api/users/{userId}/deposits              → submitDeposit
+
+   ADMIN deposit endpoints (DepositController):
+     GET    /api/deposits/all                       → getAllTransactions (alias)
+     GET    /api/admin/deposits                     → getAllTransactions
+     GET    /api/admin/deposits/{depositId}         → getTransactionDetails
+     PATCH  /api/admin/deposits/{depositId}/status  → updateStatus  ← FIXED (was /api/deposits/{id}/status)
+     POST   /api/admin/deposits/credit              → adminCreditUser  ← FIXED (was /api/deposits/admin/credit)
+     DELETE /api/admin/deposits/{depositId}         → adminDeleteDeposit  ← FIXED (was /api/deposits/admin/{id})
+     DELETE /api/admin/deposits                     → adminDeleteAllDeposits
+     DELETE /api/admin/deposits/users/{userId}      → adminDeleteUserDeposits
+
+   ADMIN user/notif endpoints:
+     GET   /api/admin/users
+     PATCH /api/admin/users/{userId}/role
+     GET   /api/admin/notifications
+     POST  /api/admin/notifications/send
+     DELETE /api/admin/notifications/{id}
+
+   USER financial/notif endpoints:
+     GET  /api/users/{userId}/financial-summary
+     GET  /api/users/{userId}/notifications
+     GET  /api/users/{userId}/notifications/unread-count
+     PATCH /api/users/{userId}/notifications/{notifId}/read
+     PATCH /api/users/{userId}/notifications/read-all
 ═══════════════════════════════════════════ */
 const API = 'https://kowriwebbackend-production.up.railway.app';
 let userData = null;
@@ -1249,116 +1192,112 @@ let isAdmin = false;
 let isSuperAdmin = false;
 let notifPanelOpen = false;
 
-const fmt = n => parseFloat(n||0).toFixed(2);
-const fmtDate = d => d ? new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '—';
-const fmtTime = d => d ? new Date(d).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) : '';
-const tok = () => localStorage.getItem('kowri_token');
-const uid = () => userData?.id || userData?.userId;
+const fmt    = n => parseFloat(n||0).toFixed(2);
+const fmtDate= d => d ? new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+const fmtTime= d => d ? new Date(d).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) : '';
+const tok    = () => localStorage.getItem('kowri_token');
+const uid    = () => userData?.id || userData?.userId;
 
 function toast(msg, type='success'){
-  const t = document.getElementById('toast');
-  const icons = {success:'fa-circle-check',error:'fa-circle-xmark',info:'fa-circle-info'};
-  document.getElementById('toast-icon').className = `fa-solid ${icons[type]||icons.success}`;
-  document.getElementById('toast-msg').textContent = msg;
-  t.className = `toast show ${type}`;
-  setTimeout(() => t.classList.remove('show'), 3500);
+  const t=document.getElementById('toast');
+  const icons={success:'fa-circle-check',error:'fa-circle-xmark',info:'fa-circle-info'};
+  document.getElementById('toast-icon').className=`fa-solid ${icons[type]||icons.success}`;
+  document.getElementById('toast-msg').textContent=msg;
+  t.className=`toast show ${type}`;
+  setTimeout(()=>t.classList.remove('show'),3500);
 }
 
 function openModal(id){ document.getElementById(id).classList.add('open'); }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(o => {
-  o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); });
 });
 
 function setBottomTab(activeId){
-  ['bn-user','bn-notif','bn-admin','bn-logout'].forEach(id => {
-    const el = document.getElementById(id);
+  ['bn-user','bn-notif','bn-admin','bn-logout'].forEach(id=>{
+    const el=document.getElementById(id);
     if(el) el.classList.remove('active');
   });
-  const target = document.getElementById(activeId);
+  const target=document.getElementById(activeId);
   if(target) target.classList.add('active');
 }
 
-function showPage(name, el){
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+function showPage(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   if(el) el.classList.add('active');
-  if(name === 'admin') loadAdminData();
-  if(name === 'user') { loadUserData(); loadUserNotifs(); }
-  if(notifPanelOpen){ toggleNotifPanel(); }
+  if(name==='admin') loadAdminData();
+  if(name==='user'){ loadUserData(); loadUserNotifs(); }
+  if(notifPanelOpen) toggleNotifPanel();
 }
 
 function logout(){
-  ['kowri_token','kowri_user','kowri_refresh','kowri_new_user'].forEach(k => localStorage.removeItem(k));
-  location.href = 'signin.html';
+  ['kowri_token','kowri_user','kowri_refresh','kowri_new_user'].forEach(k=>localStorage.removeItem(k));
+  location.href='signin.html';
 }
 
 async function init(){
-  const stored = localStorage.getItem('kowri_user');
-  const token  = tok();
-  if(!stored || !token){ location.href='signin.html'; return; }
+  const stored=localStorage.getItem('kowri_user');
+  const token=tok();
+  if(!stored||!token){ location.href='signin.html'; return; }
 
-  userData = JSON.parse(stored);
-  const role = (userData.role||'').toUpperCase();
-  isAdmin      = role === 'ADMIN' || role === 'SUPER_ADMIN';
-  isSuperAdmin = role === 'SUPER_ADMIN';
+  userData=JSON.parse(stored);
+  const role=(userData.role||'').toUpperCase();
+  isAdmin      = role==='ADMIN'||role==='SUPER_ADMIN';
+  isSuperAdmin = role==='SUPER_ADMIN';
 
-  const name = userData.fullName || userData.email || 'User';
-  document.getElementById('nav-name').textContent     = name;
-  document.getElementById('welcome-name').textContent = name;
+  const name=userData.fullName||userData.email||'User';
+  document.getElementById('nav-name').textContent    =name;
+  document.getElementById('welcome-name').textContent=name;
 
-  const initials = name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-  document.getElementById('nav-avatar').textContent = initials;
+  const initials=name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('nav-avatar').textContent=initials;
 
   if(isAdmin){
-    document.getElementById('tab-admin').style.display = 'flex';
-    document.getElementById('bn-admin').style.display  = 'flex';
-    const chip = document.getElementById('nav-role-chip');
-    chip.textContent = role.replace('_',' ');
+    document.getElementById('tab-admin').style.display='flex';
+    document.getElementById('bn-admin').style.display='flex';
+    const chip=document.getElementById('nav-role-chip');
+    chip.textContent=role.replace('_',' ');
     chip.classList.add('show');
-    if(isSuperAdmin){
-      document.getElementById('atab-btn-register').style.display = 'block';
-    }
+    if(isSuperAdmin) document.getElementById('atab-btn-register').style.display='block';
   }
 
-  // ── Show welcome screen for brand-new users ──
-  // Your signup page should set: localStorage.setItem('kowri_new_user', '1')
-  // right before redirecting here. We detect it, show the animation, then clear it.
-  const isNewUser = localStorage.getItem('kowri_new_user') === '1';
+  const isNewUser=localStorage.getItem('kowri_new_user')==='1';
   if(isNewUser){
     localStorage.removeItem('kowri_new_user');
     showWelcomeOverlay(name);
-    // Auto-dismiss after 8 seconds if user doesn't click the button
-    window._wcAutoTimer = setTimeout(dismissWelcome, 8000);
+    window._wcAutoTimer=setTimeout(dismissWelcome,8000);
   }
 
   await Promise.all([loadUserData(), loadUserNotifs()]);
 }
 
 async function loadUserData(){
-  const h = { Authorization:`Bearer ${tok()}` };
+  const h={ Authorization:`Bearer ${tok()}` };
   try {
     const [sumRes, depRes] = await Promise.all([
+      // GET /api/users/{userId}/financial-summary
       fetch(`${API}/api/users/${uid()}/financial-summary`, {headers:h}),
+      // GET /api/deposits/{userId}/my-transactions  (controller alias for /api/users/{userId}/deposits)
       fetch(`${API}/api/deposits/${uid()}/my-transactions`, {headers:h})
     ]);
     if(sumRes.ok){
-      const s = await sumRes.json();
-      document.getElementById('bal-val').textContent          = fmt(s.balance);
-      document.getElementById('stat-deposited').textContent   = fmt(s.totalDeposited);
-      document.getElementById('stat-rewards').textContent     = fmt(s.totalRewardsEarned);
-      document.getElementById('stat-withdrawn').textContent   = fmt(s.totalWithdrawn);
+      const s=await sumRes.json();
+      document.getElementById('bal-val').textContent        =fmt(s.balance);
+      document.getElementById('stat-deposited').textContent =fmt(s.totalDeposited);
+      document.getElementById('stat-rewards').textContent   =fmt(s.totalRewardsEarned);
+      document.getElementById('stat-withdrawn').textContent =fmt(s.totalWithdrawn);
     }
-    const deps = depRes.ok ? await depRes.json() : [];
+    const deps=depRes.ok ? await depRes.json() : [];
     renderTxList(deps);
   } catch(e){
-    document.getElementById('tx-body').innerHTML = '<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Failed to load transactions.</div>';
+    document.getElementById('tx-body').innerHTML='<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>Failed to load transactions.</div>';
   }
 }
 
-function switchTxTab(type, el){
-  currentTxTab = type;
+function switchTxTab(type,el){
+  currentTxTab=type;
   document.querySelectorAll('.pill-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   loadUserData();
@@ -1366,13 +1305,13 @@ function switchTxTab(type, el){
 
 function renderTxList(deps){
   if(!deps.length){
-    document.getElementById('tx-body').innerHTML = '<div class="empty-state"><i class="fa-solid fa-receipt"></i>No transactions yet.</div>';
+    document.getElementById('tx-body').innerHTML='<div class="empty-state"><i class="fa-solid fa-receipt"></i>No transactions yet.</div>';
     return;
   }
-  const sorted   = [...deps].sort((a,b) => new Date(b.createdAt)-new Date(a.createdAt));
-  const typeIcon  = t => t==='ADMIN_CREDIT' ? 'cred' : 'dep';
-  const typeLabel = t => t==='ADMIN_CREDIT' ? 'Admin Credit' : `Deposit · ${t}`;
-  const html = sorted.map(tx => `
+  const sorted=[...deps].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  const typeIcon =t=>t==='ADMIN_CREDIT'?'cred':'dep';
+  const typeLabel=t=>t==='ADMIN_CREDIT'?'Admin Credit':`Deposit · ${t}`;
+  const html=sorted.map(tx=>`
     <div class="tx-row">
       <div class="tx-l">
         <div class="tx-icon ${typeIcon(tx.depositType)}">
@@ -1385,78 +1324,82 @@ function renderTxList(deps){
       </div>
       <div class="tx-r">
         <div class="tx-amt">GH₵ ${fmt(tx.amount)}</div>
-        ${tx.rewardAmount ? `<div class="tx-reward">+GH₵ ${fmt(tx.rewardAmount)}</div>` : ''}
+        ${tx.rewardAmount?`<div class="tx-reward">+GH₵ ${fmt(tx.rewardAmount)}</div>`:''}
         <div style="margin-top:3px"><span class="badge ${tx.status}">${tx.status}</span></div>
       </div>
     </div>`).join('');
-  document.getElementById('tx-body').innerHTML = `<div class="tx-list">${html}</div>`;
+  document.getElementById('tx-body').innerHTML=`<div class="tx-list">${html}</div>`;
 }
 
 async function loadUserNotifs(){
-  const h = { Authorization:`Bearer ${tok()}` };
+  const h={ Authorization:`Bearer ${tok()}` };
   try {
-    const [nRes, cRes] = await Promise.all([
-      fetch(`${API}/api/users/${uid()}/notifications`, {headers:h}),
-      fetch(`${API}/api/users/${uid()}/notifications/unread-count`, {headers:h})
+    const [nRes,cRes]=await Promise.all([
+      // GET /api/users/{userId}/notifications
+      fetch(`${API}/api/users/${uid()}/notifications`,{headers:h}),
+      // GET /api/users/{userId}/notifications/unread-count
+      fetch(`${API}/api/users/${uid()}/notifications/unread-count`,{headers:h})
     ]);
-    userNotifs = nRes.ok ? await nRes.json() : [];
-    const countData = cRes.ok ? await cRes.json() : {unreadCount:0};
-    const unread    = countData.unreadCount || 0;
-    const badge     = document.getElementById('bell-badge');
-    unread > 0 ? badge.classList.add('show') : badge.classList.remove('show');
+    userNotifs=nRes.ok ? await nRes.json() : [];
+    const countData=cRes.ok ? await cRes.json() : {unreadCount:0};
+    const unread=countData.unreadCount||0;
+    const badge=document.getElementById('bell-badge');
+    unread>0 ? badge.classList.add('show') : badge.classList.remove('show');
     renderNotifPanel();
   } catch(e){ /* silent */ }
 }
 
 function renderNotifPanel(){
-  const scroll = document.getElementById('notif-scroll');
+  const scroll=document.getElementById('notif-scroll');
   if(!userNotifs.length){
-    scroll.innerHTML = '<div class="notif-panel-empty"><i class="fa-solid fa-bell-slash"></i>No notifications yet</div>';
+    scroll.innerHTML='<div class="notif-panel-empty"><i class="fa-solid fa-bell-slash"></i>No notifications yet</div>';
     return;
   }
-  scroll.innerHTML = userNotifs.map(n => `
+  scroll.innerHTML=userNotifs.map(n=>`
     <div class="notif-item ${n.read?'':'unread'}" onclick="markRead('${n.id}')">
       <div class="notif-dot ${n.read?'read':''}"></div>
       <div class="notif-content-wrap">
-        ${n.imageUrl ? `<img class="notif-img-thumb" src="${n.imageUrl}" alt="notif" onclick="event.stopPropagation();openImgModal('${n.imageUrl}')"/>` : ''}
-        ${n.message  ? `<div class="notif-msg-text">${n.message}</div>` : ''}
+        ${n.imageUrl?`<img class="notif-img-thumb" src="${n.imageUrl}" alt="notif" onclick="event.stopPropagation();openImgModal('${n.imageUrl}')"/>`:''}
+        ${n.message?`<div class="notif-msg-text">${n.message}</div>`:''}
         <div class="notif-time">${fmtDate(n.createdAt)} ${fmtTime(n.createdAt)}</div>
       </div>
     </div>`).join('');
 }
 
 function toggleNotifPanel(){
-  notifPanelOpen = !notifPanelOpen;
-  const panel = document.getElementById('notif-panel');
+  notifPanelOpen=!notifPanelOpen;
+  const panel=document.getElementById('notif-panel');
   notifPanelOpen ? panel.classList.add('open') : panel.classList.remove('open');
   if(notifPanelOpen) loadUserNotifs();
   if(!notifPanelOpen){
-    const bnNotif = document.getElementById('bn-notif');
+    const bnNotif=document.getElementById('bn-notif');
     if(bnNotif) bnNotif.classList.remove('active');
-    const activePage = document.querySelector('.page.active');
-    if(activePage && activePage.id === 'page-user')  setBottomTab('bn-user');
-    else if(activePage && activePage.id === 'page-admin') setBottomTab('bn-admin');
+    const activePage=document.querySelector('.page.active');
+    if(activePage&&activePage.id==='page-user')  setBottomTab('bn-user');
+    else if(activePage&&activePage.id==='page-admin') setBottomTab('bn-admin');
   }
 }
 
 async function markRead(notifId){
-  const n = userNotifs.find(x=>x.id===notifId);
-  if(!n || n.read) return;
+  const n=userNotifs.find(x=>x.id===notifId);
+  if(!n||n.read) return;
   try {
-    await fetch(`${API}/api/users/${uid()}/notifications/${notifId}/read`, {
+    // PATCH /api/users/{userId}/notifications/{notifId}/read
+    await fetch(`${API}/api/users/${uid()}/notifications/${notifId}/read`,{
       method:'PATCH', headers:{ Authorization:`Bearer ${tok()}` }
     });
-    n.read = true; n.readAt = new Date().toISOString();
+    n.read=true; n.readAt=new Date().toISOString();
     renderNotifPanel();
-    const unread = userNotifs.filter(x=>!x.read).length;
-    const badge  = document.getElementById('bell-badge');
-    unread > 0 ? badge.classList.add('show') : badge.classList.remove('show');
+    const unread=userNotifs.filter(x=>!x.read).length;
+    const badge=document.getElementById('bell-badge');
+    unread>0 ? badge.classList.add('show') : badge.classList.remove('show');
   } catch(e){ /* silent */ }
 }
 
 async function markAllRead(){
   try {
-    await fetch(`${API}/api/users/${uid()}/notifications/read-all`, {
+    // PATCH /api/users/{userId}/notifications/read-all
+    await fetch(`${API}/api/users/${uid()}/notifications/read-all`,{
       method:'PATCH', headers:{ Authorization:`Bearer ${tok()}` }
     });
     userNotifs.forEach(n=>{ n.read=true; n.readAt=new Date().toISOString(); });
@@ -1467,21 +1410,24 @@ async function markAllRead(){
 }
 
 async function loadAdminData(){
-  const h = { Authorization:`Bearer ${tok()}` };
+  const h={ Authorization:`Bearer ${tok()}` };
   try {
-    const [depRes,usrRes,notifRes] = await Promise.all([
-      fetch(`${API}/api/deposits/all`, {headers:h}),
-      fetch(`${API}/api/admin/users`, {headers:h}),
-      fetch(`${API}/api/admin/notifications`, {headers:h})
+    const [depRes,usrRes,notifRes]=await Promise.all([
+      // GET /api/deposits/all  (controller alias for /api/admin/deposits)
+      fetch(`${API}/api/deposits/all`,{headers:h}),
+      // GET /api/admin/users
+      fetch(`${API}/api/admin/users`,{headers:h}),
+      // GET /api/admin/notifications
+      fetch(`${API}/api/admin/notifications`,{headers:h})
     ]);
-    allDeposits = depRes.ok   ? await depRes.json()   : [];
-    allUsers    = usrRes.ok   ? await usrRes.json()   : [];
-    allNotifs   = notifRes.ok ? await notifRes.json() : [];
+    allDeposits=depRes.ok   ? await depRes.json()   : [];
+    allUsers   =usrRes.ok   ? await usrRes.json()   : [];
+    allNotifs  =notifRes.ok ? await notifRes.json() : [];
 
-    document.getElementById('as-users').textContent    = allUsers.length;
-    document.getElementById('as-pending').textContent  = allDeposits.filter(d=>d.status==='PENDING').length;
-    document.getElementById('as-approved').textContent = allDeposits.filter(d=>d.status==='APPROVED').length;
-    document.getElementById('as-rejected').textContent = allDeposits.filter(d=>d.status==='REJECTED').length;
+    document.getElementById('as-users').textContent   =allUsers.length;
+    document.getElementById('as-pending').textContent =allDeposits.filter(d=>d.status==='PENDING').length;
+    document.getElementById('as-approved').textContent=allDeposits.filter(d=>d.status==='APPROVED').length;
+    document.getElementById('as-rejected').textContent=allDeposits.filter(d=>d.status==='REJECTED').length;
 
     renderAdminDeposits(allDeposits);
     renderAdminUsers(allUsers);
@@ -1490,7 +1436,7 @@ async function loadAdminData(){
   } catch(e){ toast('Failed to load admin data','error'); }
 }
 
-function switchAdminSub(name, el){
+function switchAdminSub(name,el){
   document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.admin-sub-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('asec-'+name).classList.add('active');
@@ -1499,11 +1445,11 @@ function switchAdminSub(name, el){
 }
 
 function renderAdminDeposits(list){
-  const tbody = document.getElementById('dep-tbody');
+  const tbody=document.getElementById('dep-tbody');
   if(!list.length){ tbody.innerHTML='<tr><td colspan="8" class="empty-state">No deposits found.</td></tr>'; return; }
-  const sorted = [...list].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
-  tbody.innerHTML = sorted.map(d => {
-    const canAct = d.status==='PENDING';
+  const sorted=[...list].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  tbody.innerHTML=sorted.map(d=>{
+    const canAct=d.status==='PENDING';
     return `<tr>
       <td>
         <div style="font-weight:600;font-size:13px">${d.userFullName||'—'}</div>
@@ -1530,32 +1476,32 @@ function renderAdminDeposits(list){
 }
 
 function filterDeposits(q){
-  const f = q.toLowerCase();
-  renderAdminDeposits(allDeposits.filter(d =>
+  const f=q.toLowerCase();
+  renderAdminDeposits(allDeposits.filter(d=>
     (d.userFullName||'').toLowerCase().includes(f)||(d.userEmail||'').toLowerCase().includes(f)
   ));
 }
 
 async function viewDeposit(id){
-  const d = allDeposits.find(x=>x.id===id);
+  const d=allDeposits.find(x=>x.id===id);
   if(!d) return;
-  document.getElementById('dep-detail-body').innerHTML = `
+  document.getElementById('dep-detail-body').innerHTML=`
     ${d.proofImageUrl?`<img class="modal-full-img" src="${d.proofImageUrl}" onclick="openImgModal('${d.proofImageUrl}')"/>`:''}
     ${[
-      ['User', d.userFullName||'—'],['Email', d.userEmail||'—'],
-      ['Type', d.depositType||'—'],['Amount','GH₵ '+fmt(d.amount)],
-      ['Reward', d.rewardAmount?'GH₵ '+fmt(d.rewardAmount):'—'],
-      ['Status', `<span class="badge ${d.status}">${d.status}</span>`],
-      ['Token ID', d.tokenId||'—'],['Secret', d.secretCode||'—'],
-      ['Wallet ID', d.walletId||'—'],['Submitted', fmtDate(d.createdAt)],['Updated', fmtDate(d.updatedAt)]
+      ['User',d.userFullName||'—'],['Email',d.userEmail||'—'],
+      ['Type',d.depositType||'—'],['Amount','GH₵ '+fmt(d.amount)],
+      ['Reward',d.rewardAmount?'GH₵ '+fmt(d.rewardAmount):'—'],
+      ['Status',`<span class="badge ${d.status}">${d.status}</span>`],
+      ['Token ID',d.tokenId||'—'],['Secret',d.secretCode||'—'],
+      ['Wallet ID',d.walletId||'—'],['Submitted',fmtDate(d.createdAt)],['Updated',fmtDate(d.updatedAt)]
     ].map(([l,v])=>`<div class="modal-detail-row"><span class="dl">${l}</span><span class="dv">${v}</span></div>`).join('')}`;
   openModal('modal-dep-detail');
 }
 
 async function approveDeposit(id, type){
   if(type==='FLEXIBLE'){
-    document.getElementById('approve-dep-id').value = id;
-    document.getElementById('approve-reward').value  = '';
+    document.getElementById('approve-dep-id').value=id;
+    document.getElementById('approve-reward').value='';
     openModal('modal-approve');
   } else {
     await patchDepositStatus(id,'APPROVED',null);
@@ -1563,8 +1509,8 @@ async function approveDeposit(id, type){
 }
 
 async function submitApprove(){
-  const id     = document.getElementById('approve-dep-id').value;
-  const reward = parseFloat(document.getElementById('approve-reward').value);
+  const id    =document.getElementById('approve-dep-id').value;
+  const reward=parseFloat(document.getElementById('approve-reward').value);
   if(!reward||reward<=0){ toast('Enter a valid reward amount','error'); return; }
   closeModal('modal-approve');
   await patchDepositStatus(id,'APPROVED',reward);
@@ -1576,13 +1522,15 @@ async function rejectDeposit(id){
 }
 
 async function patchDepositStatus(id, status, rewardAmount){
-  const body = {status};
-  if(rewardAmount!=null) body.rewardAmount = rewardAmount;
+  // PATCH /api/admin/deposits/{depositId}/status
+  // (controller: @PatchMapping("/api/admin/deposits/{depositId}/status"))
+  const body={status};
+  if(rewardAmount!=null) body.rewardAmount=rewardAmount;
   try {
-    const res = await fetch(`${API}/api/deposits/${id}/status`,{
+    const res=await fetch(`${API}/api/admin/deposits/${id}/status`,{
       method:'PATCH',
       headers:{'Content-Type':'application/json', Authorization:`Bearer ${tok()}`},
-      body: JSON.stringify(body)
+      body:JSON.stringify(body)
     });
     if(!res.ok){ const d=await res.json(); throw new Error(d.message||'Failed'); }
     toast(`Deposit ${status.toLowerCase()} successfully`);
@@ -1592,20 +1540,22 @@ async function patchDepositStatus(id, status, rewardAmount){
 
 async function adminDeleteDeposit(id){
   if(!confirm('Permanently delete this deposit?')) return;
+  // DELETE /api/admin/deposits/{depositId}
+  // (controller: @DeleteMapping("/api/admin/deposits/{depositId}"))
   try {
-    const res = await fetch(`${API}/api/deposits/admin/${id}`,{
+    const res=await fetch(`${API}/api/admin/deposits/${id}`,{
       method:'DELETE', headers:{ Authorization:`Bearer ${tok()}` }
     });
-    if(!res.ok && res.status!==204) throw new Error('Failed to delete');
+    if(!res.ok&&res.status!==204) throw new Error('Failed to delete');
     toast('Deposit deleted');
     await loadAdminData();
   } catch(e){ toast(e.message,'error'); }
 }
 
 function renderAdminUsers(list){
-  const tbody = document.getElementById('usr-tbody');
+  const tbody=document.getElementById('usr-tbody');
   if(!list.length){ tbody.innerHTML='<tr><td colspan="6" class="empty-state">No users found.</td></tr>'; return; }
-  tbody.innerHTML = list.map(u=>`<tr>
+  tbody.innerHTML=list.map(u=>`<tr>
     <td><strong style="font-size:13px">${u.fullName||'—'}</strong></td>
     <td style="color:var(--muted)">${u.email||'—'}</td>
     <td style="color:var(--muted)">${u.phoneNumber||'—'}</td>
@@ -1628,19 +1578,20 @@ function filterUsers(q){
 }
 
 function openRoleModal(userId, currentRole){
-  document.getElementById('role-user-id').value  = userId;
-  document.getElementById('role-select').value   = currentRole;
+  document.getElementById('role-user-id').value=userId;
+  document.getElementById('role-select').value=currentRole;
   openModal('modal-role');
 }
 
 async function submitRoleChange(){
-  const userId = document.getElementById('role-user-id').value;
-  const role   = document.getElementById('role-select').value;
+  const userId=document.getElementById('role-user-id').value;
+  const role  =document.getElementById('role-select').value;
+  // PATCH /api/admin/users/{userId}/role
   try {
-    const res = await fetch(`${API}/api/admin/users/${userId}/role`,{
+    const res=await fetch(`${API}/api/admin/users/${userId}/role`,{
       method:'PATCH',
       headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},
-      body: JSON.stringify({role})
+      body:JSON.stringify({role})
     });
     if(!res.ok){ const d=await res.json(); throw new Error(d.message||'Failed'); }
     closeModal('modal-role');
@@ -1650,26 +1601,28 @@ async function submitRoleChange(){
 }
 
 function quickCredit(userId){
-  switchAdminSub('credit', document.querySelectorAll('.admin-sub-tab')[3]);
-  setTimeout(()=>{ document.getElementById('credit-user-sel').value = userId; },50);
+  switchAdminSub('credit',document.querySelectorAll('.admin-sub-tab')[3]);
+  setTimeout(()=>{ document.getElementById('credit-user-sel').value=userId; },50);
 }
 
 function populateCreditSelect(users){
-  const sel = document.getElementById('credit-user-sel');
-  sel.innerHTML = '<option value="">— Select a user —</option>' +
+  const sel=document.getElementById('credit-user-sel');
+  sel.innerHTML='<option value="">— Select a user —</option>'+
     users.map(u=>`<option value="${u.id}">${u.fullName} (${u.email})</option>`).join('');
 }
 
 async function submitCredit(){
-  const userId = document.getElementById('credit-user-sel').value;
-  const amount = parseFloat(document.getElementById('credit-amount').value);
+  const userId=document.getElementById('credit-user-sel').value;
+  const amount=parseFloat(document.getElementById('credit-amount').value);
   if(!userId){ toast('Please select a user','error'); return; }
   if(!amount||amount<=0){ toast('Enter a valid amount','error'); return; }
+  // POST /api/admin/deposits/credit
+  // (controller: @PostMapping("/api/admin/deposits/credit") — was wrongly /api/deposits/admin/credit)
   try {
-    const res = await fetch(`${API}/api/deposits/admin/credit`,{
+    const res=await fetch(`${API}/api/admin/deposits/credit`,{
       method:'POST',
       headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},
-      body: JSON.stringify({userId,amount})
+      body:JSON.stringify({userId,amount})
     });
     if(!res.ok){ const d=await res.json(); throw new Error(d.message||'Failed'); }
     toast(`GH₵ ${fmt(amount)} credited successfully`);
@@ -1679,9 +1632,9 @@ async function submitCredit(){
 }
 
 function renderAdminNotifs(list){
-  const tbody = document.getElementById('notif-admin-tbody');
+  const tbody=document.getElementById('notif-admin-tbody');
   if(!list.length){ tbody.innerHTML='<tr><td colspan="6" class="empty-state">No notifications sent yet.</td></tr>'; return; }
-  tbody.innerHTML = list.map(n=>`<tr>
+  tbody.innerHTML=list.map(n=>`<tr>
     <td><span class="notif-type-badge ${n.type}">${(n.type||'').replace(/_/g,' ')}</span></td>
     <td style="max-width:200px;font-size:12px">${n.message?n.message.substring(0,60)+(n.message.length>60?'…':''):'<span style="color:var(--muted)">—</span>'}</td>
     <td>${n.imageUrl?`<img class="proof-thumb" src="${n.imageUrl}" onclick="openImgModal('${n.imageUrl}')"/>`:'—'}</td>
@@ -1692,34 +1645,34 @@ function renderAdminNotifs(list){
 }
 
 function detectNotifType(message, imgFile){
-  const hasMsg = message.length > 0;
-  const hasImg = !!imgFile;
-  if(hasMsg && hasImg) return 'TEXT_IMAGE';
-  if(hasMsg)           return 'TEXT_ONLY';
-  if(hasImg)           return 'IMAGE_ONLY';
+  const hasMsg=message.length>0;
+  const hasImg=!!imgFile;
+  if(hasMsg&&hasImg) return 'TEXT_IMAGE';
+  if(hasMsg)         return 'TEXT_ONLY';
+  if(hasImg)         return 'IMAGE_ONLY';
   return null;
 }
 
 function updateNotifTypeIndicator(){
-  const message  = document.getElementById('notif-msg').value.trim();
-  const imgInput = document.getElementById('notif-img-input');
-  const imgFile  = imgInput ? imgInput.files[0] : null;
-  const type     = detectNotifType(message, imgFile);
-  const indicator= document.getElementById('notif-type-indicator');
-  const label    = document.getElementById('notif-type-label');
+  const message =document.getElementById('notif-msg').value.trim();
+  const imgInput=document.getElementById('notif-img-input');
+  const imgFile =imgInput?imgInput.files[0]:null;
+  const type    =detectNotifType(message,imgFile);
+  const indicator=document.getElementById('notif-type-indicator');
+  const label   =document.getElementById('notif-type-label');
   if(!type){ indicator.style.display='none'; return; }
-  const labels = { TEXT_ONLY:'Text Only', IMAGE_ONLY:'Image Only', TEXT_IMAGE:'Text + Image' };
-  label.textContent   = labels[type];
-  label.className     = `notif-type-badge ${type}`;
-  indicator.style.display = 'block';
+  const labels={TEXT_ONLY:'Text Only',IMAGE_ONLY:'Image Only',TEXT_IMAGE:'Text + Image'};
+  label.textContent =labels[type];
+  label.className   =`notif-type-badge ${type}`;
+  indicator.style.display='block';
 }
 
 function previewNotifImg(input){
   if(!input.files[0]) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const prev = document.getElementById('notif-img-preview');
-    prev.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;position:absolute;inset:0;"/>
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const prev=document.getElementById('notif-img-preview');
+    prev.innerHTML=`<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;position:absolute;inset:0;"/>
       <input type="file" id="notif-img-input" accept="image/*" style="display:none" onchange="previewNotifImg(this);updateNotifTypeIndicator()"/>`;
   };
   reader.readAsDataURL(input.files[0]);
@@ -1727,20 +1680,21 @@ function previewNotifImg(input){
 }
 
 async function submitNotification(){
-  const message  = document.getElementById('notif-msg').value.trim();
-  const imgInput = document.getElementById('notif-img-input');
-  const imgFile  = imgInput ? imgInput.files[0] : null;
-  const type     = detectNotifType(message, imgFile);
+  const message =document.getElementById('notif-msg').value.trim();
+  const imgInput=document.getElementById('notif-img-input');
+  const imgFile =imgInput?imgInput.files[0]:null;
+  const type    =detectNotifType(message,imgFile);
   if(!type){ toast('Please enter a message, upload an image, or both','error'); return; }
 
-  const form = new FormData();
-  form.append('adminId', uid());
-  form.append('type', type);
-  if(message) form.append('message', message);
-  if(imgFile)  form.append('image', imgFile);
+  const form=new FormData();
+  form.append('adminId',uid());
+  form.append('type',type);
+  if(message) form.append('message',message);
+  if(imgFile)  form.append('image',imgFile);
 
+  // POST /api/admin/notifications/send
   try {
-    const res = await fetch(`${API}/api/admin/notifications/send`,{
+    const res=await fetch(`${API}/api/admin/notifications/send`,{
       method:'POST', headers:{ Authorization:`Bearer ${tok()}` }, body:form
     });
     if(!res.ok){ const d=await res.json(); throw new Error(d.message||'Failed'); }
@@ -1752,43 +1706,45 @@ async function submitNotification(){
 }
 
 function resetNotifModal(){
-  document.getElementById('notif-msg').value = '';
-  document.getElementById('notif-img-preview').innerHTML = `
+  document.getElementById('notif-msg').value='';
+  document.getElementById('notif-img-preview').innerHTML=`
     <i class="fa-solid fa-image" style="font-size:22px"></i>
     <span>Tap to upload image</span>
     <input type="file" id="notif-img-input" accept="image/*" style="display:none" onchange="previewNotifImg(this);updateNotifTypeIndicator()"/>`;
-  document.getElementById('notif-type-indicator').style.display = 'none';
+  document.getElementById('notif-type-indicator').style.display='none';
 }
 
 async function deleteAdminNotif(id){
   if(!confirm('Delete this notification?')) return;
+  // DELETE /api/admin/notifications/{id}
   try {
-    const res = await fetch(`${API}/api/admin/notifications/${id}`,{
+    const res=await fetch(`${API}/api/admin/notifications/${id}`,{
       method:'DELETE', headers:{ Authorization:`Bearer ${tok()}` }
     });
-    if(!res.ok && res.status!==204) throw new Error('Failed');
+    if(!res.ok&&res.status!==204) throw new Error('Failed');
     toast('Notification deleted');
     await loadAdminData();
   } catch(e){ toast(e.message,'error'); }
 }
 
-async function loadScreenshots(period, el){
+async function loadScreenshots(period,el){
   if(el){
     document.querySelectorAll('.ss-tab').forEach(t=>t.classList.remove('active'));
     el.classList.add('active');
   }
-  const grid = document.getElementById('ss-grid');
-  grid.innerHTML = '<div class="loading-state" style="grid-column:1/-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div>';
+  const grid=document.getElementById('ss-grid');
+  grid.innerHTML='<div class="loading-state" style="grid-column:1/-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div>';
   try {
-    const res = await fetch(`${API}/api/admin/screenshots/${period}`,{
+    // GET /api/admin/screenshots/{period}
+    const res=await fetch(`${API}/api/admin/screenshots/${period}`,{
       headers:{ Authorization:`Bearer ${tok()}` }
     });
-    const shots = res.ok ? await res.json() : [];
+    const shots=res.ok?await res.json():[];
     if(!shots.length){
       grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-images"></i>No screenshots found.</div>';
       return;
     }
-    grid.innerHTML = shots.map(s=>`
+    grid.innerHTML=shots.map(s=>`
       <div class="ss-card" onclick="openImgModal('${s.secureUrl}')">
         <img src="${s.secureUrl}" alt="screenshot" loading="lazy"/>
         <div class="ss-card-info">${fmtDate(s.createdAt)} · ${(s.bytes/1024).toFixed(0)}KB</div>
@@ -1797,18 +1753,19 @@ async function loadScreenshots(period, el){
 }
 
 async function submitCreateAdmin(){
-  const fullName    = document.getElementById('reg-name').value.trim();
-  const email       = document.getElementById('reg-email').value.trim();
-  const phoneNumber = document.getElementById('reg-phone').value.trim();
-  const password    = document.getElementById('reg-pass').value;
+  const fullName   =document.getElementById('reg-name').value.trim();
+  const email      =document.getElementById('reg-email').value.trim();
+  const phoneNumber=document.getElementById('reg-phone').value.trim();
+  const password   =document.getElementById('reg-pass').value;
   if(!fullName||!email||!password){ toast('Please fill in required fields','error'); return; }
+  // POST /api/admin/register
   try {
-    const body = {fullName,email,password};
-    if(phoneNumber) body.phoneNumber = phoneNumber;
-    const res = await fetch(`${API}/api/admin/register`,{
+    const body={fullName,email,password};
+    if(phoneNumber) body.phoneNumber=phoneNumber;
+    const res=await fetch(`${API}/api/admin/register`,{
       method:'POST',
       headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},
-      body: JSON.stringify(body)
+      body:JSON.stringify(body)
     });
     if(!res.ok){ const d=await res.json(); throw new Error(d.message||'Failed'); }
     toast('Admin account created successfully');
@@ -1818,7 +1775,7 @@ async function submitCreateAdmin(){
 }
 
 function openImgModal(url){
-  document.getElementById('modal-img-src').src = url;
+  document.getElementById('modal-img-src').src=url;
   openModal('modal-img');
 }
 
