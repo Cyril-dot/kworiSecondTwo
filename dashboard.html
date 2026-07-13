@@ -1025,7 +1025,7 @@ async function init(){
   const token=tok();
   if(!stored||!token){location.href='signin.html';return;}
   userData=JSON.parse(stored);
-  const role=(userData.role||userData.user?.role||userData.admin?.role||'').toUpperCase();
+  const role=(userData.role||'').toUpperCase();
   isAdmin=role==='ADMIN'||role==='SUPER_ADMIN';
   isSuperAdmin=role==='SUPER_ADMIN';
   const name=userData.fullName||userData.email||'User';
@@ -1038,12 +1038,14 @@ async function init(){
     document.getElementById('tab-admin').style.display='flex';
     document.getElementById('bn-admin').style.display='flex';
     const chip=document.getElementById('nav-role-chip');chip.textContent=role.replace('_',' ');chip.classList.add('show');
-    if(isSuperAdmin)document.getElementById('atab-btn-register').style.display='block';
-    // Bulk-wipe controls — visible to any logged-in admin (gated by backend role check)
-    document.getElementById('btn-clear-all-users').style.display='inline-flex';
-    document.getElementById('btn-clear-all-deposits').style.display='inline-flex';
-    document.getElementById('btn-clear-all-withdrawals').style.display='inline-flex';
-    document.getElementById('btn-clear-all-screenshots').style.display='inline-flex';
+    if(isSuperAdmin){
+      document.getElementById('atab-btn-register').style.display='block';
+      // Highly destructive bulk-wipe controls — SUPER_ADMIN only
+      document.getElementById('btn-clear-all-users').style.display='inline-flex';
+      document.getElementById('btn-clear-all-deposits').style.display='inline-flex';
+      document.getElementById('btn-clear-all-withdrawals').style.display='inline-flex';
+      document.getElementById('btn-clear-all-screenshots').style.display='inline-flex';
+    }
   }
   const isNewUser=localStorage.getItem('kowri_new_user')==='1';
   const alreadyWelcomed=userId&&localStorage.getItem(`kowri_welcomed_${userId}`)==='1';
@@ -1313,7 +1315,7 @@ function renderAdminDeposits(list){
   const sorted=[...list].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
   tbody.innerHTML=sorted.map(d=>{
     const canAct=d.status==='PENDING';
-    return `<tr><td><div style="font-weight:600;font-size:13px">${d.userFullName||'—'}</div><div style="font-size:11px;color:var(--muted)">${d.userEmail||''}</div></td><td><span class="badge PENDING" style="background:#eff6ff;color:#1d4ed8">${d.depositType||'—'}</span></td><td><strong>GH₵ ${fmt(d.amount)}</strong></td><td>${d.rewardAmount?'GH₵ '+fmt(d.rewardAmount):'<span style="color:var(--muted)">—</span>'}</td><td><span class="badge ${d.status}">${d.status}</span></td><td style="font-size:12px;color:var(--muted);white-space:nowrap">${fmtDate(d.createdAt)}</td><td>${d.proofImageUrl?`<img class="proof-thumb" src="${d.proofImageUrl}" alt="proof" onclick="openImgModal('${d.proofImageUrl}')"/>`:'<span style="color:var(--muted);font-size:12px">None</span>'}</td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn-xs btn-xs-view" onclick="viewDeposit('${d.id}')"><i class="fa-solid fa-eye"></i></button>${canAct?`<button class="btn-xs btn-xs-approve" onclick="approveDeposit('${d.id}','${d.depositType}')"><i class="fa-solid fa-check"></i></button><button class="btn-xs btn-xs-reject" onclick="rejectDeposit('${d.id}')"><i class="fa-solid fa-xmark"></i></button>`:''} <button class="btn-xs btn-xs-delete" onclick="adminDeleteDeposit('${d.id}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`;
+    return `<tr><td><div style="font-weight:600;font-size:13px">${d.userFullName||'—'}</div><div style="font-size:11px;color:var(--muted)">${d.userEmail||''}</div></td><td><span class="badge PENDING" style="background:#eff6ff;color:#1d4ed8">${d.depositType||'—'}</span></td><td><strong>GH₵ ${fmt(d.amount)}</strong></td><td>${d.rewardAmount?'GH₵ '+fmt(d.rewardAmount):'<span style="color:var(--muted)">—</span>'}</td><td><span class="badge ${d.status}">${d.status}</span></td><td style="font-size:12px;color:var(--muted);white-space:nowrap">${fmtDate(d.createdAt)}</td><td>${d.proofImageUrl?`<img class="proof-thumb" src="${d.proofImageUrl}" alt="proof" onclick="openImgModal('${d.proofImageUrl}')"/>`:'<span style="color:var(--muted);font-size:12px">None</span>'}</td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn-xs btn-xs-view" onclick="viewDeposit('${d.id}')"><i class="fa-solid fa-eye"></i></button>${canAct?`<button class="btn-xs btn-xs-approve" onclick="approveDeposit('${d.id}','${d.depositType}')"><i class="fa-solid fa-check"></i></button><button class="btn-xs btn-xs-reject" onclick="rejectDeposit('${d.id}')"><i class="fa-solid fa-xmark"></i></button>`:''} ${isSuperAdmin?`<button class="btn-xs btn-xs-delete" onclick="adminDeleteDeposit('${d.id}')"><i class="fa-solid fa-trash"></i></button>`:''}</div></td></tr>`;
   }).join('');
 }
 function filterDeposits(q){const f=q.toLowerCase();renderAdminDeposits(allDeposits.filter(d=>(d.userFullName||'').toLowerCase().includes(f)||(d.userEmail||'').toLowerCase().includes(f)));}
