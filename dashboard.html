@@ -1033,7 +1033,12 @@ async function init(){
   userData=JSON.parse(stored);
   const role=(userData.role||'').toUpperCase();
   isAdmin=role==='ADMIN'||role==='SUPER_ADMIN';
-  isSuperAdmin=role==='SUPER_ADMIN';
+  /* Access-level update: ADMIN and SUPER_ADMIN now share the same
+     level of access in this dashboard. isSuperAdmin is kept as a
+     variable (many UI branches below still key off it) but it is
+     now simply an alias for isAdmin, so any ADMIN sees/can trigger
+     everything a SUPER_ADMIN can from this UI. */
+  isSuperAdmin=isAdmin;
   const name=userData.fullName||userData.email||'User';
   const userId=uid();
   document.getElementById('nav-name').textContent=name;
@@ -1046,7 +1051,7 @@ async function init(){
     const chip=document.getElementById('nav-role-chip');chip.textContent=role.replace('_',' ');chip.classList.add('show');
     if(isSuperAdmin){
       document.getElementById('atab-btn-register').style.display='block';
-      // Highly destructive bulk-wipe controls — SUPER_ADMIN only
+      // Highly destructive bulk-wipe controls — now shown to any ADMIN/SUPER_ADMIN
       document.getElementById('btn-clear-all-users').style.display='inline-flex';
       document.getElementById('btn-clear-all-deposits').style.display='inline-flex';
       document.getElementById('btn-clear-all-withdrawals').style.display='inline-flex';
@@ -1425,10 +1430,16 @@ async function adminDeleteAllWithdrawals(){
 }
 /* ═══════════════════════════════════════════════════════════════════
    DESTRUCTIVE ADMIN DATA MANAGEMENT
-   Wired to AdminController's SUPER_ADMIN-only endpoints. Each one
-   confirms locally via confirm() AND passes ?confirm=true to the
-   backend where required, which enforces it as a second guard on
-   the bulk (system-wide) wipes.
+   Wired to AdminController's endpoints. Each one confirms locally via
+   confirm() AND passes ?confirm=true to the backend where required.
+
+   NOTE ON ACCESS LEVEL: the frontend gating below (isSuperAdmin) is
+   now an alias for isAdmin (see init()), so any ADMIN or SUPER_ADMIN
+   account sees and can trigger all of these from this dashboard.
+   Backend authorization (e.g. @PreAuthorize) is a separate, server-side
+   concern outside this file — if the backend still restricts these
+   endpoints to SUPER_ADMIN only, that would need to be changed there
+   too for regular ADMIN accounts to actually succeed when calling them.
 
    Per-user actions (single user):
      - adminDeleteUserCompletely(userId)   → DELETE /api/admin/users/{id}?confirm=true      (deletes account + everything)
